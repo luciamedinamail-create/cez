@@ -1,0 +1,8 @@
+{
+  "name": "CEZ Studio",
+  "description": "A minimalist, high-end architecture studio showcase for cez studio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

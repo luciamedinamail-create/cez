@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Private user information for clients.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["client", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "role", "createdAt"]
+    },
+    "Project": {
+      "title": "Architectural Project",
+      "description": "Details of an architectural project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "year": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "concept": { "type": "string" },
+        "heroImage": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "plans": { "type": "array", "items": { "type": "string" } },
+        "sections": { "type": "array", "items": { "type": "string" } },
+        "facts": { "type": "object" },
+        "credits": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "year", "location", "heroImage", "images"]
+    },
+    "News": {
+      "title": "News Article",
+      "description": "A news update or blog post.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "category", "title", "description", "createdAt"]
+    },
+    "ContactSettings": {
+      "title": "Contact Settings",
+      "description": "Information for the contact page and studio history.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "whoWeAre": { "type": "string" },
+        "history": { "type": "string" },
+        "offices": { "type": "array", "items": { "type": "object" } },
+        "socials": { "type": "object" },
+        "teamMembers": { "type": "array", "items": { "type": "object" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles for clients."
+    },
+    "projects/{projectId}": {
+      "schema": "Project",
+      "description": "List of architectural projects."
+    },
+    "news/{newsId}": {
+      "schema": "News",
+      "description": "Updates and news articles."
+    },
+    "settings/{settingId}": {
+      "schema": "ContactSettings",
+      "description": "Global application settings."
+    }
+  }
+}
