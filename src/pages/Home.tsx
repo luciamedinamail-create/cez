@@ -8,13 +8,32 @@ import { useLanguage } from '../contexts/LanguageContext';
 const imageUrl = (src: string) => {
   if (!src) return '';
 
-  // Keep external URLs unchanged
-  if (src.startsWith('http') || src.startsWith('data:')) return src;
+  // External images stay unchanged
+  if (
+    src.startsWith('http://') ||
+    src.startsWith('https://') ||
+    src.startsWith('data:')
+  ) {
+    return src;
+  }
 
-  // Remove accidental leading slash
-  const cleanSrc = src.startsWith('/') ? src.slice(1) : src;
+  let cleanSrc = src.trim();
 
-  // Adds /cez/ automatically in GitHub Pages because of Vite base
+  // Remove leading slash
+  if (cleanSrc.startsWith('/')) {
+    cleanSrc = cleanSrc.slice(1);
+  }
+
+  // If your data says src/assets/images/..., convert it to public path
+  if (cleanSrc.startsWith('src/assets/images/')) {
+    cleanSrc = cleanSrc.replace('src/assets/images/', 'assets/images/');
+  }
+
+  // Avoid double /cez/ if already included
+  if (cleanSrc.startsWith('cez/')) {
+    cleanSrc = cleanSrc.replace('cez/', '');
+  }
+
   return `${import.meta.env.BASE_URL}${cleanSrc}`;
 };
 
@@ -30,7 +49,7 @@ function ImageFlicker({
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (items.length <= 1) return;
+    if (!items || items.length <= 1) return;
 
     const timeout = setTimeout(() => {
       const timer = setInterval(() => {
@@ -45,15 +64,17 @@ function ImageFlicker({
 
   if (!items || items.length === 0) return null;
 
+  const currentItem = items[index];
+
   return (
     <Link
-      to={`/projects/${items[index].projectId}`}
+      to={`/projects/${currentItem.projectId}`}
       className="block w-full h-full relative overflow-hidden group"
     >
       <AnimatePresence mode="popLayout">
         <motion.img
-          key={items[index].src}
-          src={items[index].src}
+          key={currentItem.src}
+          src={currentItem.src}
           alt=""
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -90,7 +111,7 @@ function TextFlicker({
   };
 
   useEffect(() => {
-    if (projects.length <= 1) return;
+    if (!projects || projects.length <= 1) return;
 
     const timeout = setTimeout(() => {
       const timer = setInterval(() => {
@@ -197,7 +218,6 @@ export default function Home() {
     <div className="flex flex-col bg-bg-primary overflow-x-hidden min-h-screen">
       <section className="page-padding section-padding">
         <div className="max-w-[2810px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0">
-          {/* Block 1: Main Feature */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -210,7 +230,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 2: Main Image */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -232,7 +251,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 3 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -255,7 +273,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 4: The Ingebound Experience */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -270,7 +287,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 4b */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -284,7 +300,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 5 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -307,7 +322,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 6 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -321,7 +335,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 7 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -336,7 +349,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 8 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -350,7 +362,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 9 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -365,7 +376,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 10 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -379,7 +389,6 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* Block 11 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
